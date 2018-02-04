@@ -49,10 +49,13 @@ function getDiagonal(array $grid, int $startRow, int $startCol, bool $main = tru
  */
 function getLargestProduct(array $grid, int $lengthSeq = 4): int
 {
-    $arr = [];
+    $res = 0;
 
     foreach ($grid as $col => $row) {
-        $arr = array_merge($arr, $row, array_column($grid, $col));
+        $newProd = calculate($row, $lengthSeq);
+        $newProd2 = calculate(array_column($grid, $col), $lengthSeq);
+        $newProd = $newProd > $newProd2 ? $newProd : $newProd2;
+        $res = $newProd > $res ? $newProd : $res;
     }
 
     $count = count($grid);
@@ -61,11 +64,12 @@ function getLargestProduct(array $grid, int $lengthSeq = 4): int
     foreach ($cols as $col) {
         $rows = $col === 0 || $col === $count - 1 ? $rowsNumbers : [0];
         foreach ($rows as $row) {
-            $arr = array_merge($arr, getDiagonal($grid, $row, $col, ($col < $count / 2)));
+            $newProd = calculate(getDiagonal($grid, $row, $col, ($col < $count / 2)), $lengthSeq);
+            $res = $newProd > $res ? $newProd : $res;
         }
     }
 
-    return calculate($arr, $lengthSeq);;
+    return $res;
 }
 
 $grid = [
