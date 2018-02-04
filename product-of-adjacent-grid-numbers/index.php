@@ -32,7 +32,7 @@ function getDiagonal(array $grid, int $startRow, int $startCol, bool $main = tru
 {
     $arr = [];
     list($stop, $step) = $main ? [count($grid) - $startRow, 1] : [0 + $startRow, -1];
-    while ($startCol < $stop) {
+    while (($startCol < $stop && $main) || $startCol >= $stop && ! $main) {
         $arr[] = $grid[$startRow][$startCol];
         $startCol += $step;
         ++$startRow;
@@ -69,10 +69,10 @@ function getLargestProduct(array $grid, int $lengthSeq = 4): int
 }
 
 $grid = [
-    [1, 1, 1, 4 ,1, 1],
-    [1, 1, 4, 1 ,1, 1],
-    [1, 4, 1, 1 ,1, 1],
-    [4, 1, 1, 1 ,1, 1],
+    [1, 1, 1, 1 ,5, 1],
+    [1, 1, 1, 5 ,1, 1],
+    [1, 1, 5, 1 ,1, 1],
+    [1, 5, 1, 1 ,1, 1],
     [1, 1, 1, 1 ,1, 1],
     [1, 1, 1, 1 ,1, 1],
 ];
