@@ -49,13 +49,11 @@ function getDiagonal(array $grid, int $startRow, int $startCol, bool $main = tru
  */
 function getLargestProduct(array $grid, int $lengthSeq = 4): int
 {
-    $res = 0;
+    $arr = [];
 
     foreach ($grid as $col => $row) {
-        $newProd = calculate($row, $lengthSeq);
-        $newProd2 = calculate(array_column($grid, $col), $lengthSeq);
-        $newProd = $newProd > $newProd2 ? $newProd : $newProd2;
-        $res = $newProd > $res ? $newProd : $res;
+        $arr[] = calculate($row, $lengthSeq);
+        $arr[] = calculate(array_column($grid, $col), $lengthSeq);
     }
 
     $count = count($grid);
@@ -64,21 +62,22 @@ function getLargestProduct(array $grid, int $lengthSeq = 4): int
     foreach ($cols as $col) {
         $rows = $col === 0 || $col === $count - 1 ? $rowsNumbers : [0];
         foreach ($rows as $row) {
-            $newProd = calculate(getDiagonal($grid, $row, $col, ($col < $count / 2)), $lengthSeq);
-            $res = $newProd > $res ? $newProd : $res;
+            $arr[] = calculate(getDiagonal($grid, $row, $col, ($col < $count / 2)), $lengthSeq);
         }
     }
 
-    return $res;
+    rsort($arr);
+
+    return (int) reset($arr);
 }
 
 $grid = [
     [1, 1, 1, 1 ,5, 1],
     [1, 1, 1, 5 ,1, 1],
-    [1, 1, 5, 1 ,1, 1],
-    [1, 5, 1, 1 ,1, 1],
-    [1, 1, 1, 1 ,1, 1],
-    [1, 1, 1, 1 ,1, 1],
+    [9, 1, 5, 9 ,1, 1],
+    [1, 9, 7, 1 ,1, 1],
+    [1, 1, 9, 1 ,1, 1],
+    [1, 1, 1, 9 ,1, 1],
 ];
 
-echo (string) getLargestProduct($grid);
+echo sprintf('Max product = %s%s', getLargestProduct($grid), "\n");
