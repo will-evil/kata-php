@@ -28,7 +28,7 @@ function snail(array $array): array
             $vector['ref'] += $vector['step'];
             for ($l = 0; $l < $vector['limit']; ++$l) {
                 $sortArr[] = $array[$i][$j];
-                ($l + 1) !== $vector['limit'] ? $vector['ref'] += $vector['step'] : null;
+                ($l + 1) < $vector['limit'] && $vector['ref'] += $vector['step'];
                 --$elNum;
             }
             --$vector['limit'];
